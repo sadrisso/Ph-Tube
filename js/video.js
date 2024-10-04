@@ -44,16 +44,24 @@ const displayVideos = (videos) =>
         const card = document.createElement("div");
         card.classList = "card card-compact"
         card.innerHTML = `
-            <figure>
+            <figure class="h-[200px] relative">
                 <img
                 src=${video.thumbnail}
-                alt="Shoes" />
+                alt="Thumbnail" class="h-full w-full object-cover" />
+                <span class="absolute bottom-2 right-2 bg-black text-white">${video.others.posted_date}</span>
             </figure>
-            <div class="card-body">
-                <h2 class="card-title">${video.title}</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+            <div class="py-2 flex gap-4 items-center">
+                <div class="">
+                    <img src="${video.authors[0].profile_picture}" class="w-10 h-10 rounded-full" />
+                </div>
+                <div">
+                    <h2 class="card-title font-bold font-serif">${video.title}</h2>
+                    <div class="flex gap-2 items-center">
+                        <p class="text-gray-400">${video.authors[0].profile_name}</p>
+                        ${video.authors[0].verified === true ? '<img src="https://cdn4.iconfinder.com/data/icons/ui-solic/24/Verified-256.png" class="w-4 h-4" />' : ""}
+                        <p class="text-gray-600">${video.others.views}</p>
+                    </div>
+                    <p></p>
                 </div>
             </div>
         `
