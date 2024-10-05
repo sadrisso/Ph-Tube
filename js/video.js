@@ -46,6 +46,20 @@ const displayVideos = (videos) =>
     const videoContainer = document.getElementById("videos");
     videoContainer.innerHTML = "";
 
+    if (videos.length === 0) {
+        videoContainer.classList.remove("grid")
+        videoContainer.innerHTML = `
+            <div class="min-h-96 flex flex-col gap-5 items-center justify-center">
+                <img src="ph-tube-resources/Icon.png" />
+                <h2 class="text-center font-bold text-4xl">No content here in this category</h2>
+            </div>
+        `;
+        return;
+    }
+    else {
+        videoContainer.classList.add("grid");
+    }
+
     //try to display using forEach
     videos.forEach((video) =>
     {
