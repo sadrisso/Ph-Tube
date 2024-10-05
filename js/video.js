@@ -7,6 +7,22 @@ const loadCategories = async () =>
     return displayCategories(data.categories);
 }
 
+const loadVideos = async () =>
+    {
+        const res = await fetch("https://openapi.programming-hero.com/api/phero-tube/videos");
+        const data = await res.json();
+
+        return displayVideos(data.videos)
+    }
+
+const loadCategorieVideos = async (id) =>
+{
+    const res = await fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`);
+    const data = await res.json();
+
+    displayVideos(data.category);
+}
+
 
 const displayCategories = (data) =>
 {
@@ -16,26 +32,19 @@ const displayCategories = (data) =>
     for (res of data)
     {
         console.log(res.category)
-        const button = document.createElement("button");
-        button.classList = "btn btn-info mx-4";
-        button.innerText = res.category;
-
-        categoryContainer.append(button)
+        const buttonContainer = document.createElement("div");
+        buttonContainer.innerHTML = `
+            <button class="btn mr-3" onclick="loadCategorieVideos(${res.category_id})">${res.category}</button>
+        `
+        categoryContainer.append(buttonContainer)
     }
-}
-
-const loadVideos = async () =>
-{
-    const res = await fetch("https://openapi.programming-hero.com/api/phero-tube/videos");
-    const data = await res.json();
-
-    return displayVideos(data.videos)
 }
 
 
 const displayVideos = (videos) =>
 {
     const videoContainer = document.getElementById("videos");
+    videoContainer.innerHTML = "";
 
     //try to display using forEach
     videos.forEach((video) =>
@@ -48,7 +57,7 @@ const displayVideos = (videos) =>
                 <img
                 src=${video.thumbnail}
                 alt="Thumbnail" class="h-full w-full object-cover" />
-                <span class="absolute bottom-2 right-2 bg-black text-white">${video.others.posted_date}</span>
+                ${video.others.posted_date?.length === 0 ? "" : `<span class="absolute bottom-2 right-2 bg-black text-white">${video.others.posted_date}</span>}`}
             </figure>
             <div class="py-2 flex gap-4 items-center">
                 <div class="">
