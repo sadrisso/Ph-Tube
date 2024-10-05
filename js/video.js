@@ -15,10 +15,25 @@ const loadVideos = async () =>
         return displayVideos(data.videos)
     }
 
+const removeActiveClass = () =>
+{
+    const buttons = document.getElementsByClassName("category-btn")
+    console.log(buttons)
+
+    for (let btn of buttons) {
+        btn.classList.remove("active")
+    }
+}
+
 const loadCategorieVideos = async (id) =>
 {
     const res = await fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`);
     const data = await res.json();
+
+    removeActiveClass();
+
+    const activeBtn = document.getElementById(`btn-${id}`)
+    activeBtn.classList.add("active");
 
     displayVideos(data.category);
 }
@@ -34,7 +49,7 @@ const displayCategories = (data) =>
         console.log(res.category)
         const buttonContainer = document.createElement("div");
         buttonContainer.innerHTML = `
-            <button class="btn mr-3" onclick="loadCategorieVideos(${res.category_id})">${res.category}</button>
+            <button class="category-btn btn mr-3" id="btn-${res.category_id}" onclick="loadCategorieVideos(${res.category_id})">${res.category}</button>
         `
         categoryContainer.append(buttonContainer)
     }
